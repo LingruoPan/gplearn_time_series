@@ -459,7 +459,11 @@ class _Program(object):
             The raw fitness of the program.
 
         """
-        y_pred = self.execute(X)
+        if isinstance(X, pd.DataFrame):
+            y_pred = self.execute_df(X)
+        else:
+            y_pred = self.execute(X)
+
         if self.transformer:
             y_pred = self.transformer(y_pred)
         raw_fitness = self.metric(y, y_pred, sample_weight)
