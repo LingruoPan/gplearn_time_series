@@ -30,7 +30,7 @@ setup(name='gplearn_time_series',
       author_email='trev.stephens@gmail.com',
       url='https://github.com/trevorstephens/gplearn',
       license='new BSD',
-      packages=packages=['gplearn_time_series'],
+      packages=find_packages(include=['gplearn_time_series', 'gplearn_time_series.*']),
 
       zip_safe=False,
       package_data={'': ['LICENSE']},
