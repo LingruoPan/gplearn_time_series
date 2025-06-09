@@ -840,24 +840,27 @@ class SymbolicRegressor(BaseSymbolic, RegressorMixin):
             return self.__repr__()
         return self._program.__str__()
 
-    def predict(self, X):
-        """Perform regression on test vectors X.
 
-        Parameters
-        ----------
-        X : array-like, shape = [n_samples, n_features]
-            Input vectors, where n_samples is the number of samples
-            and n_features is the number of features.
+def predict(self, X):
+    """Perform regression on test vectors X.
 
-        Returns
-        -------
-        y : array, shape = [n_samples]
-            Predicted values for X.
+    Parameters
+    ----------
+    X : array-like or DataFrame
+        If DataFrame: execute_df used → supports ts_xxx_model
+        If array: execute used → standard GP flow.
 
-        """
-        if not hasattr(self, '_program'):
-            raise NotFittedError('SymbolicRegressor not fitted.')
+    Returns
+    -------
+    y_pred : 1D array
+    """
+    if not hasattr(self, '_program'):
+        raise NotFittedError('SymbolicRegressor not fitted.')
 
+    # Smart dispatch depending on X type
+    if isinstance(X, pd.DataFrame):
+        y_pred = self._program.execute_df(X)
+    else:
         X = check_array(X)
         _, n_features = X.shape
         if self.n_features_in_ != n_features:
@@ -865,12 +868,10 @@ class SymbolicRegressor(BaseSymbolic, RegressorMixin):
                              'input. Model n_features is %s and input '
                              'n_features is %s.'
                              % (self.n_features_in_, n_features))
+        y_pred = self._program.execute(X)
 
-        y = self._program.execute(X)
-        y_pred = program.execute_df(X_df_global)
+    return y_pred
 
-
-        return y_pred
 
 
 class SymbolicClassifier(BaseSymbolic, ClassifierMixin):
