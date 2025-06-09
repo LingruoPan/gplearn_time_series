@@ -7,11 +7,11 @@ import gplearn_time_series
 
 
 DESCRIPTION = __doc__
-VERSION  = gplearn_time_series.__version__
+VERSION  = '0.5.dev0' 
 
 
 setup(name='gplearn_time_series',
-      version=gplearn_time_series.__version__,
+      version=VERSION,
       description=DESCRIPTION,
       long_description=open("README.rst").read(),
       classifiers=['Development Status :: 3 - Alpha',
