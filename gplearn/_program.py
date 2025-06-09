@@ -469,7 +469,7 @@ class _Program(object):
         raw_fitness = self.metric(y, y_pred, sample_weight)
 
         return raw_fitness
-    
+        
 
 
 def execute_df(self, X_df):
