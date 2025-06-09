@@ -11,7 +11,7 @@ VERSION  = gplearn_time_series.__version__
 
 
 setup(name='gplearn_time_series',
-      version=VERSION,
+      version=gplearn_time_series.__version__,
       description=DESCRIPTION,
       long_description=open("README.rst").read(),
       classifiers=['Development Status :: 3 - Alpha',
