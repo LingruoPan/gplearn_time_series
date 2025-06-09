@@ -3,9 +3,6 @@
 """Genetic Programming in Python, with a scikit-learn inspired API"""
 
 from setuptools import setup, find_packages
-
-
-
 DESCRIPTION = __doc__
 VERSION  = '0.5.dev0' 
 
