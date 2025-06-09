@@ -3,7 +3,8 @@
 """Genetic Programming in Python, with a scikit-learn inspired API"""
 
 from setuptools import setup, find_packages
-import gplearn
+import gplearn_time_series
+
 
 DESCRIPTION = __doc__
 VERSION = gplearn.__version__
