@@ -465,7 +465,7 @@ class _Program(object):
         raw_fitness = self.metric(y, y_pred, sample_weight)
 
         return raw_fitness
-    # 放到 program.py Program class 里，加这个方法
+    
 
 
 def execute_df(self, X_df):
