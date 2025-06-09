@@ -145,10 +145,8 @@ def _parallel_evolve(n_programs, parents, X, y, sample_weight, seeds, params):
         oob_sample_weight[indices] = 0
 
         
-        if isinstance(X, pd.DataFrame):
-            program.raw_fitness_ = program.raw_fitness_df(X, y, curr_sample_weight)
-        else:
-            program.raw_fitness_ = program.raw_fitness(X, y, curr_sample_weight)
+    
+        program.raw_fitness_ = program.raw_fitness(X, y, curr_sample_weight)
         if max_samples < n_samples:
             # Calculate OOB fitness
             program.oob_fitness_ = program.raw_fitness(X, y, oob_sample_weight)
