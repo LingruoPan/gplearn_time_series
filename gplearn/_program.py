@@ -465,6 +465,49 @@ class _Program(object):
         raw_fitness = self.metric(y, y_pred, sample_weight)
 
         return raw_fitness
+    # 放到 program.py Program class 里，加这个方法
+def execute_df(self, X_df):
+    """
+    Execute the program on a DataFrame X_df.
+
+    - X_df: pandas DataFrame, shape (T, N), index/columns flexible
+    - All function in function_stack can internally reshape, flatten, etc.
+
+    Return:
+    - 1D numpy array (flattened result) after executing the program
+    """
+
+    function_stack = self._function_stack
+    terminals = self._terminals
+    functions = self._functions
+
+    stack = []
+    for i, node in enumerate(function_stack):
+        if node[0] == 'term':
+            terminal_idx = node[1]
+            # 取一列 flatten
+            col_data = X_df.iloc[:, terminal_idx].values.flatten()
+            stack.append(col_data)
+        else:
+            func = functions[node[1]]
+            arity = func.arity
+            args = [stack.pop() for _ in range(arity)][::-1]
+
+            # 关键改法：
+            # 这里允许 function 自己 reshape + flatten → 不要求 elementwise array pipeline
+            # 只需要保证 function 最终返回 1D array → stack 里存放的就是 flatten array
+            result = func(*args)
+
+            # 你 ts_xxx_model 已经 flatten 过 → 这里直接 append result 就行
+            stack.append(result)
+
+    # 最终 stack 里应该只剩一个结果
+    assert len(stack) == 1
+    result_array = stack[0]
+
+    # 返回 flatten array → 你 fitness 里 reshape_to_time_stock 自己写
+    return result_array
+
 
     def fitness(self, parsimony_coefficient=None):
         """Evaluate the penalized fitness of the program according to X, y.
