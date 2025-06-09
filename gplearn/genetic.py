@@ -867,8 +867,10 @@ class SymbolicRegressor(BaseSymbolic, RegressorMixin):
                              % (self.n_features_in_, n_features))
 
         y = self._program.execute(X)
+        y_pred = program.execute_df(X_df_global)
 
-        return y
+
+        return y_pred
 
 
 class SymbolicClassifier(BaseSymbolic, ClassifierMixin):
